@@ -19,11 +19,13 @@ class YaWorker:
         method_url = self.base_url[:-1]
         my_headers = self.get_headers()
         global your_folder_name
-        your_folder_name = input(str('Введите имя папки, в которой будут храниться файлы (В случае, если данная папка уже существует, код даст ошибку): '))
+        your_folder_name = input(str('Введите имя папки, в которой будут храниться файлы: '))
         my_params = {'path': your_folder_name}
         ans = requests.put(method_url, headers=my_headers, params=my_params)
-        ans.raise_for_status()
-        return your_folder_name
+        if ans.status_code == '201':
+            return your_folder_name
+        else:
+            return your_folder_name
 
 
     def ya_photo_uploader(self, name_url_dict):
